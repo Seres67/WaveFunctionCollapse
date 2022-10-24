@@ -34,23 +34,26 @@ void Grid::setNeighboursStates(int pos)
     int top = pos - m_size;
     int bottom = pos + m_size;
     int state = m_grid[pos].possible_states[0];
+    ImageTile curr = TilesManager::getImageTile(state);
 
-    if (x > 0 && !m_grid[left].collapsed)
+    if (x > 0 && !m_grid[left].collapsed && left / m_size == y)
     {
         for (int i = 0; i < m_grid[left].possible_states.size(); ++i)
         {
-            if (TilesManager::getImageTile(state).edges[3] != TilesManager::getImageTile(m_grid[left].possible_states[i]).edges[1])
+            ImageTile tile = TilesManager::getImageTile(m_grid[left].possible_states[i]);
+            if (curr.edges[3] != tile.edges[1] && m_grid[left].possible_states.size() > 1)
             {
                 m_grid[left].possible_states.erase(m_grid[left].possible_states.begin() + i);
                 --i;
             }
         }
     }
-    if (x < m_size - 1 && !m_grid[right].collapsed)
+    if (x < m_size - 1 && !m_grid[right].collapsed && right / m_size == y)
     {
         for (int i = 0; i < m_grid[right].possible_states.size(); ++i)
         {
-            if (TilesManager::getImageTile(state).edges[1] != TilesManager::getImageTile(m_grid[right].possible_states[i]).edges[3])
+            ImageTile tile = TilesManager::getImageTile(m_grid[right].possible_states[i]);
+            if (curr.edges[1] != tile.edges[3] && m_grid[right].possible_states.size() > 1)
             {
                 m_grid[right].possible_states.erase(m_grid[right].possible_states.begin() + i);
                 --i;
@@ -61,7 +64,8 @@ void Grid::setNeighboursStates(int pos)
     {
         for (int i = 0; i < m_grid[top].possible_states.size(); ++i)
         {
-            if (TilesManager::getImageTile(state).edges[0] != TilesManager::getImageTile(m_grid[top].possible_states[i]).edges[2])
+            ImageTile tile = TilesManager::getImageTile(m_grid[top].possible_states[i]);
+            if (curr.edges[0] != tile.edges[2] && m_grid[top].possible_states.size() > 1)
             {
                 m_grid[top].possible_states.erase(m_grid[top].possible_states.begin() + i);
                 --i;
@@ -72,7 +76,8 @@ void Grid::setNeighboursStates(int pos)
     {
         for (int i = 0; i < m_grid[bottom].possible_states.size(); ++i)
         {
-            if (TilesManager::getImageTile(state).edges[2] != TilesManager::getImageTile(m_grid[bottom].possible_states[i]).edges[0])
+            ImageTile tile = TilesManager::getImageTile(m_grid[bottom].possible_states[i]);
+            if (curr.edges[2] != tile.edges[0] && m_grid[bottom].possible_states.size() > 1)
             {
                 m_grid[bottom].possible_states.erase(m_grid[bottom].possible_states.begin() + i);
                 --i;
@@ -124,4 +129,9 @@ void Grid::display()
             std::cout << "X ";
     }
     std::cout << std::endl;
+}
+
+GridTile Grid::getTile(int pos) const
+{
+    return m_grid[pos];
 }

@@ -25,6 +25,8 @@ public:
 
     void display();
 
+    GridTile getTile(int pos) const;
+
 private:
     int m_size;
     std::vector<GridTile> m_grid;

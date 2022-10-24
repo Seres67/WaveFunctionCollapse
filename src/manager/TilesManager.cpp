@@ -4,7 +4,7 @@
 
 #include <utility>
 #include <fstream>
-#include "manager/TilesManager.hpp"
+#include <manager/TilesManager.hpp>
 
 std::vector<ImageTile> TilesManager::m_image_tiles;
 
