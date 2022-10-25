@@ -4,7 +4,7 @@
 
 - [CMake](https://cmake.org/)
 - [CImg](http://cimg.eu/)
-- 
+
 ## Build
 
 ```bash
