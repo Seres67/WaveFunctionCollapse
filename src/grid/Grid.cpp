@@ -95,14 +95,11 @@ int Grid::getNextPos()
         return !a.collapsed;
     });
     std::vector only_collapsed(filter_collapsed.begin(), filter_collapsed.end());
-    std::sort(only_collapsed.begin(), only_collapsed.end(), [](const GridTile &a, const GridTile &b)
-    {
-        return a.possible_states.size() < b.possible_states.size();
-    });
-    size_t min = only_collapsed[0].possible_states.size();
+    auto min = std::min_element(only_collapsed.begin(), only_collapsed.end(), [](const GridTile &a, const GridTile &b)
+    { return a.possible_states.size() < b.possible_states.size(); });
     auto filter_min = std::ranges::filter_view(only_collapsed, [min](const GridTile &a)
     {
-        return a.possible_states.size() == min;
+        return a.possible_states.size() == min->possible_states.size();
     });
     std::vector filtered(filter_min.begin(), filter_min.end());
     int rand = Random::getRandomInt(0, filtered.size() - 1);
